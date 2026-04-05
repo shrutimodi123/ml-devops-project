@@ -39,4 +39,4 @@ jobs:
     # 🔹 6. Stop containers (cleanup)
     - name: Stop containers
       run: |
-        docker-compose down
+        docker compose down
