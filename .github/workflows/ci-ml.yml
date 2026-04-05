@@ -18,7 +18,7 @@ jobs:
     # 🔹 2. Start services using Docker Compose
     - name: Run Docker Compose
       run: |
-        docker-compose up --build -d
+        docker compose up --build -d
 
     # 🔹 3. Wait for app to start
     - name: Wait for app
