@@ -3,40 +3,36 @@ name: MLOps CI/CD Pipeline
 on:
   push:
     branches: ["main"]
-  workflow_dispatch:
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-
-    # 🔹 1. Checkout code
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    # 🔹 2. Start services using Docker Compose
     - name: Run Docker Compose
       run: |
         docker compose up --build -d
 
-    # 🔹 3. Wait for app to start
     - name: Wait for app
-      run: sleep 15
-
-    # 🔹 4. Test API (GET)
-    - name: Test Home API
       run: |
-        curl -X GET http://localhost:5000
+        for i in {1..10}; do
+          curl -s http://localhost:5000 && break
+          sleep 5
+        done
 
-    # 🔹 5. Test API (POST)
-    - name: Test Prediction API
+    - name: Test API
+      run: |
+        curl http://localhost:5000
+
+    - name: Test Prediction
       run: |
         curl -X POST http://localhost:5000/predict \
         -H "Content-Type: application/json" \
         -d '{"age":30,"salary":60000}'
 
-    # 🔹 6. Stop containers (cleanup)
     - name: Stop containers
       run: |
         docker compose down

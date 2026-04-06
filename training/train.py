@@ -1,16 +1,15 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
 import joblib
 
 df = pd.read_csv("data/data.csv")
 
-X = df[['age', 'salary']]
-y = df['purchased']
+X = df[["age", "salary"]]
+y = df["purchased"]
 
-model = RandomForestClassifier()
+model = DecisionTreeClassifier()
 model.fit(X, y)
 
 joblib.dump(model, "model/model.pkl")
 
-print("Model saved successfully!")
-
+print("Model trained and saved!")
